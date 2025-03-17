@@ -56,3 +56,25 @@ class OrderData:
         "deliveryDate": deliveryDate,
         "comment": fake_client.text(max_nb_chars=40),
     }
+
+class CheckOrdersList:
+    @staticmethod
+    def check_response_dict_keys(response):
+        response_dict_keys = ["orders", "pageInfo", "availableStations"]
+        return all(key in response_dict_keys for key in response.json().keys())
+
+    @staticmethod
+    def check_orders_dict_keys(response):
+        orders_dict_keys = ["id", "courierId", "firstName", "lastName", "address", "metroStation", "phone", "rentTime",
+                            "deliveryDate", "track", "color", "comment", "createdAt", "updatedAt", "status"]
+        return all(key in orders_dict_keys for key in response.json()['orders'][0])
+
+    @staticmethod
+    def check_pageinfo_dict_keys(response):
+        pageinfo_dict_keys = ["page", "total", "limit"]
+        return all(key in pageinfo_dict_keys for key in response.json()['pageInfo'])
+
+    @staticmethod
+    def check_availablestations_dict_keys(response):
+        availablestations_dict_keys = ["name", "number", "color"]
+        return all(key in availablestations_dict_keys for key in response.json()['availableStations'][0])
